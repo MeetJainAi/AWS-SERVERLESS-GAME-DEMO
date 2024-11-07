@@ -16,12 +16,12 @@
     "framer-motion": "^11.11.11",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-scripts": "5.0.1",
-    "typescript": "^4.9.5",
+    "react-scripts": "^5.0.1",
+    "typescript": "4.9.5",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "export NODE_OPTIONS=--openssl-legacy-provider && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -45,6 +45,13 @@
     ]
   },
   "devDependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
+    "@aws-amplify/backend": "^1.6.2",
+    "@aws-amplify/backend-cli": "^1.4.1",
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "aws-cdk": "^2.166.0",
+    "aws-cdk-lib": "^2.166.0",
+    "constructs": "^10.4.2",
+    "esbuild": "^0.24.0",
+    "tsx": "^4.19.2"
   }
 }
