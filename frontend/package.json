@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@aws-amplify/ui-react": "^6.5.5",
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
     "@testing-library/jest-dom": "^5.17.0",
@@ -12,6 +13,7 @@
     "@types/node": "^16.18.119",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
+    "aws-amplify": "^6.8.0",
     "confetti-js": "^0.0.18",
     "framer-motion": "^11.11.11",
     "react": "^18.3.1",

@@ -3,54 +3,58 @@ import { motion } from 'framer-motion';
 
 export const GameContainer = styled.div`
   min-height: 100vh;
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   padding: 2rem;
-  color: white;
+  position: relative;
 `;
 
 export const GameCard = styled(motion.div)`
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
-  border-radius: 20px;
   padding: 2rem;
-  width: 90%;
-  max-width: 500px;
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  margin-top: 2rem;
+  border-radius: 1rem;
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 `;
 
 export const Input = styled.input`
   width: 100%;
-  padding: 1rem;
-  margin: 1rem 0;
-  border: none;
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.05);
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   color: white;
-  font-size: 1.2rem;
-  text-align: center;
-  
+  font-size: 1rem;
+
   &:focus {
-    outline: 2px solid #4f9cff;
+    outline: none;
+    border-color: rgba(255, 255, 255, 0.5);
   }
 `;
 
 export const Button = styled.button`
-  background: linear-gradient(45deg, #4f9cff 0%, #8940ff 100%);
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  background: linear-gradient(45deg, #2196f3, #21cbf3);
   border: none;
-  padding: 1rem 2rem;
-  border-radius: 10px;
   color: white;
-  font-size: 1.1rem;
+  font-size: 1rem;
   cursor: pointer;
   transition: transform 0.2s;
-  width: 100%;
-  
-  &:hover {
+
+  &:hover:not(:disabled) {
     transform: translateY(-2px);
   }
-`; 
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+`;
