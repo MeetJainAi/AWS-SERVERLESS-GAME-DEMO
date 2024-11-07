@@ -20,16 +20,19 @@
     "passwordPolicyMinLength": 8,
     "passwordPolicyCharacters": [],
     "requiredAttributes": [
-      "email"
+      "email",
+      "name"
     ],
     "aliasAttributes": [],
     "userpoolClientGenerateSecret": false,
     "userpoolClientRefreshTokenValidity": 30,
     "userpoolClientWriteAttributes": [
-      "email"
+      "email",
+      "name"
     ],
     "userpoolClientReadAttributes": [
-      "email"
+      "email",
+      "name"
     ],
     "userpoolClientLambdaRole": "awscloa9ad28c9_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
