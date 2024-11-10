@@ -3,18 +3,17 @@ import { useAuth } from '../../contexts/AuthContext';
 import { motion } from 'framer-motion';
 
 export function LoginForm() {
+  const [isSignUp, setIsSignUp] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
   const [verificationCode, setVerificationCode] = useState('');
   const [error, setError] = useState('');
-  const [isSignUp, setIsSignUp] = useState(false);
-  const { signIn, signUp, confirmSignUpCode, needsConfirmation, tempEmail } = useAuth();
+  const { signIn, signUp, needsConfirmation, confirmSignUpCode, tempEmail } = useAuth();
 
-  async function handleSubmit(e: React.FormEvent) {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
-    
     try {
       if (needsConfirmation) {
         await confirmSignUpCode(tempEmail, verificationCode);
@@ -27,127 +26,145 @@ export function LoginForm() {
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
     }
-  }
+  };
 
   if (needsConfirmation) {
     return (
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="w-full max-w-md p-8 bg-gray-800/80 backdrop-blur-lg rounded-xl shadow-2xl"
-      >
-        <h2 className="text-2xl font-bold text-white mb-6 text-center">
-          Verify Your Email
-        </h2>
-        
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="space-y-2">
-            <label className="text-sm text-gray-300">Verification Code</label>
-            <input
-              type="text"
-              value={verificationCode}
-              onChange={(e) => setVerificationCode(e.target.value)}
-              placeholder="Enter code from your email"
-              className="w-full px-4 py-3 bg-gray-700/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
-            />
+      <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-[#240046] via-[#3c096c] to-[#5a189a] p-4">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="w-full max-w-md"
+        >
+          <div className="bg-white/10 backdrop-blur-xl rounded-2xl shadow-2xl p-8 border border-white/20">
+            <h2 className="text-3xl font-bold text-white mb-6 text-center">
+              Verify Your Email
+            </h2>
+            <p className="text-white/70 text-center mb-8">
+              Please check your email ({tempEmail}) for the verification code
+            </p>
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="space-y-2">
+                <input
+                  type="text"
+                  value={verificationCode}
+                  onChange={(e) => setVerificationCode(e.target.value)}
+                  className="w-full px-4 py-3 bg-white/5 border-2 border-white/10 focus:border-purple-500 rounded-xl text-white outline-none"
+                  placeholder="Enter verification code"
+                />
+              </div>
+              {error && (
+                <p className="text-red-400 text-sm text-center">{error}</p>
+              )}
+              <button
+                type="submit"
+                className="w-full py-3 px-4 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-xl font-medium transition-all duration-200 transform hover:scale-105"
+              >
+                Verify Email
+              </button>
+            </form>
           </div>
-
-          {error && (
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="text-red-400 text-sm text-center"
-            >
-              {error}
-            </motion.p>
-          )}
-
-          <button
-            type="submit"
-            className="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors duration-200"
-          >
-            Verify Email
-          </button>
-        </form>
-      </motion.div>
+        </motion.div>
+      </div>
     );
   }
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="w-full max-w-md p-8 bg-gray-800/80 backdrop-blur-lg rounded-xl shadow-2xl"
-    >
-      <h2 className="text-2xl font-bold text-white mb-6 text-center">
-        {isSignUp ? 'Create Account' : 'Welcome Back'}
-      </h2>
-      
-      <form onSubmit={handleSubmit} className="space-y-4">
-        {isSignUp && (
-          <div className="space-y-2">
-            <label className="text-sm text-gray-300">Name</label>
-            <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Your name"
-              className="w-full px-4 py-3 bg-gray-700/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required={isSignUp}
-            />
+    <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-[#240046] via-[#3c096c] to-[#5a189a] p-4">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="w-full max-w-md relative"
+      >
+        <div className="relative bg-white/10 backdrop-blur-xl rounded-2xl shadow-2xl overflow-hidden border border-white/20">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/20 rounded-full filter blur-3xl transform translate-x-20 -translate-y-10" />
+          <div className="absolute bottom-0 left-0 w-32 h-32 bg-pink-500/20 rounded-full filter blur-3xl transform -translate-x-20 translate-y-10" />
+          
+          <div className="relative p-8">
+            <motion.h2
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="text-3xl font-bold text-white mb-8 text-center"
+            >
+              {isSignUp ? 'Create Account' : 'Welcome Back'}
+            </motion.h2>
+            
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                className="space-y-4"
+              >
+                {isSignUp && (
+                  <div className="inputBox">
+                    <input
+                      type="text"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      required
+                      className="w-full px-4 py-3 bg-white/5 border-2 border-white/10 focus:border-purple-500 rounded-xl text-white placeholder-white/50 outline-none transition-all duration-200"
+                    />
+                    <span>Username</span>
+                  </div>
+                )}
+
+                <div className="inputBox">
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    className="w-full px-4 py-3 bg-white/5 border-2 border-white/10 focus:border-purple-500 rounded-xl text-white placeholder-white/50 outline-none transition-all duration-200"
+                  />
+                  <span>Email</span>
+                </div>
+
+                <div className="inputBox">
+                  <input
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    className="w-full px-4 py-3 bg-white/5 border-2 border-white/10 focus:border-purple-500 rounded-xl text-white placeholder-white/50 outline-none transition-all duration-200"
+                  />
+                  <span>Password</span>
+                </div>
+              </motion.div>
+
+              {error && (
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="text-red-400 text-sm text-center"
+                >
+                  {error}
+                </motion.p>
+              )}
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="space-y-4"
+              >
+                <button
+                  type="submit"
+                  className="w-full py-3 px-4 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-xl font-medium transition-all duration-200 transform hover:scale-105"
+                >
+                  {isSignUp ? 'Sign Up' : 'Sign In'}
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setIsSignUp(!isSignUp)}
+                  className="w-full py-3 px-4 bg-white/5 border border-white/10 text-white rounded-xl font-medium hover:bg-white/10 transition-all duration-200"
+                >
+                  {isSignUp ? 'Already have an account?' : 'Need an account?'}
+                </button>
+              </motion.div>
+            </form>
           </div>
-        )}
-
-        <div className="space-y-2">
-          <label className="text-sm text-gray-300">Email</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="your@email.com"
-            className="w-full px-4 py-3 bg-gray-700/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            required
-          />
         </div>
-        
-        <div className="space-y-2">
-          <label className="text-sm text-gray-300">Password</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="••••••••"
-            className="w-full px-4 py-3 bg-gray-700/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            required
-          />
-        </div>
-
-        {error && (
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="text-red-400 text-sm text-center"
-          >
-            {error}
-          </motion.p>
-        )}
-
-        <button
-          type="submit"
-          className="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors duration-200"
-        >
-          {isSignUp ? 'Sign Up' : 'Sign In'}
-        </button>
-
-        <button
-          type="button"
-          onClick={() => setIsSignUp(!isSignUp)}
-          className="w-full py-3 px-4 bg-transparent border border-gray-600 text-gray-300 rounded-lg font-medium hover:bg-gray-700/30 transition-colors duration-200"
-        >
-          {isSignUp ? 'Already have an account?' : 'Need an account?'}
-        </button>
-      </form>
-    </motion.div>
+      </motion.div>
+    </div>
   );
 }

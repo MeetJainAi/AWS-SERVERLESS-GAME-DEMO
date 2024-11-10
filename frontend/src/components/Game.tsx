@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { GameContainer, GameGrid, Card, ScoreBoard } from '../styles/GameStyles';
 import ConfettiGenerator from 'confetti-js';
 
-const GAME_ICONS = ['🎮', '🎲', '🎯', '🎪', '🎨', '🎭', '🚀', '🎸', '🎹', '🎬'];
+const GAME_ICONS = ['🎮', '🎲', '🎯', '🎪', '🎨', '🎭', '🚀', '🎸', '🎹', '🎬', '🎪', '🎭', '🎨', '🎲', '🎯', '🎮', '🎸', '🎹'];
 
 interface GameCard {
   id: number;
@@ -58,7 +58,7 @@ export default function Game() {
   }, [gameWon, score, bestScore]);
 
   function initializeGame() {
-    const gameIcons = GAME_ICONS.slice(0, 8);
+    const gameIcons = GAME_ICONS.slice(0, 7);
     const shuffledCards = [...gameIcons, ...gameIcons]
       .sort(() => Math.random() - 0.5)
       .map((icon, index) => ({
@@ -120,10 +120,12 @@ export default function Game() {
       <div className="flex flex-col md:flex-row justify-between items-center p-4 md:p-6">
         <h1 className="text-3xl md:text-4xl font-bold text-white mb-4 md:mb-0">Memory Match</h1>
         <div className="flex items-center gap-4">
-          <span className="text-white font-medium">Welcome, {displayName}</span>
-          <button 
+  <span className="text-white text-lg font-medium">
+    Welcome, {displayName?.split('@')[0] || 'Player'}
+  </span>
+  <button 
             onClick={signOut}
-            className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors duration-200"
+            className="px-4 py-2 bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white rounded-lg transition-all duration-200 transform hover:scale-105"
           >
             Sign Out
           </button>
@@ -173,31 +175,44 @@ export default function Game() {
         </GameGrid>
       </div>
 
-      {gameWon && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
-        >
-          <motion.div
-            initial={{ scale: 0.9 }}
+     
+{gameWon && (
+  <motion.div
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    className="fixed inset-0 flex items-center justify-center bg-black/80 backdrop-blur-md p-4"
+  >
+    <motion.div
+      initial={{ scale: 0.9, opacity: 0 }}
+      animate={{ scale: 1, opacity: 1 }}
+      className="bg-gradient-to-br from-purple-900 to-indigo-900 rounded-2xl p-8 text-center max-w-md w-full border border-white/10 shadow-2xl"
+    >
+      <motion.div
+        initial={{ y: 20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 0.2 }}
+      >
+        <h2 className="text-4xl font-bold text-white mb-4">Congratulations! 🎉</h2>
+        <p className="text-xl text-white/90 mb-2">You won with {score} points!</p>
+        <p className="text-lg text-white/70 mb-6">in {moves} moves</p>
+        {score > bestScore && (
+          <motion.p
+            initial={{ scale: 0.8 }}
             animate={{ scale: 1 }}
-            className="bg-white rounded-xl p-6 md:p-8 text-center max-w-md w-full"
+            className="text-yellow-300 font-semibold mb-6 text-xl"
           >
-            <h2 className="text-2xl md:text-3xl font-bold mb-4">Congratulations! 🎉</h2>
-            <p className="text-lg mb-2">You won with {score} points!</p>
-            <p className="text-gray-600 mb-6">in {moves} moves</p>
-            {score > bestScore && (
-              <p className="text-green-600 font-semibold mb-6">New Best Score! 🏆</p>
-            )}
-            <button
-              onClick={initializeGame}
-              className="w-full px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-medium transition-colors duration-200"
-            >
-              Play Again
-            </button>
-          </motion.div>
-        </motion.div>
+            New Best Score! 🏆
+          </motion.p>
+        )}
+        <button
+          onClick={initializeGame}
+          className="w-full px-6 py-4 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-xl font-medium transition-all duration-200 transform hover:scale-105"
+        >
+          Play Again
+        </button>
+      </motion.div>
+    </motion.div>
+  </motion.div>
       )}
     </GameContainer>
   );
